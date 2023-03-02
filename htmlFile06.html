@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--
+ @license
+ Copyright 2019 Google LLC. All Rights Reserved.
+ SPDX-License-Identifier: Apache-2.0
+-->
+<html>
+
+    <head>
+        <title>Add Map</title>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        <!-- jsFiddle will insert css and js -->
+    </head>
+
+    <body>
+        <h3>My Google Maps Demo</h3>
+        <button id="clearBtn">Clear Markers</button>
+        <!--The div element for the map -->
+        <div id="map"></div>
+
+        <!-- 
+     The `defer` attribute causes the callback to execute after the full HTML
+     document has been parsed. For non-blocking uses, avoiding race conditions,
+     and consistent behavior across browsers, consider loading using Promises
+     with https://www.npmjs.com/package/@googlemaps/js-api-loader.
+    -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly" defer></script>
+    </body>
+	/**
+ * @license
+ * Copyright 2019 Google LLC. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+// Initialize and add the map
+const numberMarker = 2;
+let markerArray = [];
+let markerArray1 = [];
+let marker;
+
+function initMap() {
+    const directionsService = new google.maps.DirectionsService();
+    const directionsRenderer = new google.maps.DirectionsRenderer();
+
+    // The location of Uluru
+    const uluru = {
+        lat: -25.344,
+        lng: 131.031
+    };
+    // The map, centered at Uluru
+    const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 15,
+        center: uluru,
+    });
+    // The marker, positioned at Uluru
+    // const marker = new google.maps.Marker({
+    //  position: uluru,
+    //  map: map,
+    //});
+
+    map.addListener("click", (mapsMouseEvent) => {
+        directionsRenderer.setMap(map);
+        marker = new google.maps.Marker({
+            map,
+            draggable: true,
+            position: mapsMouseEvent.latLng,
+        });
+        markerArray.push(mapsMouseEvent.latLng);
+        // console.log(markerArray);
+        markerArray1.push(marker);
+
+        let countMarker = markerArray.length;
+        // console.log(countMarker)
+
+        if (countMarker == numberMarker) {
+            calculateAndDisplayRoute(directionsService, directionsRenderer, markerArray, map)
+        }
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', function() {
+        console.log(markerArray)
+        // console.log(markerArray.length);
+        for (let i = 0; i < markerArray1.length; i++) {
+            console.log(i, markerArray[i]);
+            markerArray1[i].setMap(null);
+        }
+        markerArray = [];
+        directionsRenderer.setMap(null);
+    });
+}
+
+function calculateAndDisplayRoute(directionsService, directionsRenderer, markerArray, map) {
+    directionsService
+        .route({
+            origin: markerArray[0],
+            destination: markerArray[1],
+            travelMode: google.maps.TravelMode.DRIVING,
+        })
+        .then((response) => {
+            directionsRenderer.setDirections(response);
+            //console.log(response);
+            console.log(response.routes[0].legs[0].distance);
+        })
+        .catch((e) => window.alert("Directions request failed due to " + e));
+}
+
+window.initMap = initMap;
+
+
+</html>
+
+/**
+ * @license
+ * Copyright 2019 Google LLC. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+/* Set the size of the div element that contains the map */
+#map {
+    height: 400px;
+    /* The height is 400 pixels */
+    width: 100%;
+    /* The width is the width of the web page */
+}
+
