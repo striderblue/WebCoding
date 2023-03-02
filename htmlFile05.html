@@ -1,0 +1,260 @@
+<form>
+  <input type="text" class="none" name="inputFname" id="inputFname" placeholder="Input Fullname"><br>
+  <button id="addBtn">ADD</button><br>
+  <input type="text" name="inputA" id="inputA"><br>
+  <input type="text" name="inputB" id="inputB"><br>
+  <div id="addEl"></div>
+  <button id="saveBtn">SAVE</button>
+</form>
+
+<form>
+  <input type="text" class="none" name="inputFname" id="inputFname" placeholder="Input Fullname"><br>
+  <button id="addBtn">ADD</button>&nbsp;<button id="delBtn">Remove</button><br>
+  <input type="text" name="inputA" id="inputA"><br>
+  <input type="text" name="inputB" id="inputB"><br>
+  <div id="addEl"></div>
+  <button id="saveBtn">SAVE</button>
+</form>
+<script>
+const saveBtn = document.getElementById('saveBtn');
+saveBtn.addEventListener('click', function(event) {
+  event.preventDefault();
+  /* alert('click'); */
+
+  let fname = document.getElementById('inputFname').value;
+  let valA = document.getElementById('inputA').value;
+  let valB = document.getElementById('inputB').value;
+
+  console.log(fname, valA, valB);
+
+  let txt = fname + valA + valB;
+  console.log(txt);
+
+  let sum = Number(valA) + Number(valB);
+  console.log(sum);
+  console.log(`A: ${valA} + B: ${valB} = ${sum}`);
+  let ans = `A: ${valA} + B: ${valB} = ${sum}`;
+  console.log(ans);
+
+  if (Number(valA) <= 0) {
+    alert("More than Zero");
+    document.getElementById('inputA').style.backgroundColor = 'red';
+  }
+
+
+  //saveBtn.submit();
+
+  /*let data = {
+    "fname": fname,
+    "A": Number(valA),
+    "B": valB,
+    "ans": ans,
+  }
+
+  fetch('/test', {
+      mehtod: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });*/
+});
+
+let idx = 1;
+document.getElementById('addBtn').addEventListener('click', function(event) {
+  event.preventDefault();
+
+  /*let x = document.createElement('INPUT');
+  x.setAttribute("type", "text");
+  x.name = `input${idx}`;
+  x.id = `input${idx}`;
+  document.getElementById('addEl').appendChild(x);
+  idx++;*/
+
+  const data = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  let sel = document.createElement('SELECT');
+  sel.id = `test${idx}`;
+  sel.name = `test${idx}`;
+
+  let dayNumber = 1;
+  data.forEach(function(days) {
+    console.log(days);
+    let opt = document.createElement('OPTION');
+    opt.text = days;
+    opt.value = dayNumber;
+    sel.add(opt, null);
+    dayNumber++;
+  });
+  idx++;
+
+  document.getElementById('addEl').appendChild(sel);
+});
+
+
+const f = [
+  { "fname": "Golf", "A": 1, "B": "4" },
+  { "fname": "Top", "A": 1, "B": "4" },
+];
+
+console.log(f[0].fname);
+
+f.forEach(function(x) {
+	console.log(x);
+  console.log(x.fname);
+})
+
+
+
+const saveBtn = document.getElementById('saveBtn');
+saveBtn.addEventListener('click', function(event) {
+  event.preventDefault();
+  /* alert('click'); */
+
+  let fname = document.getElementById('inputFname').value;
+  let valA = document.getElementById('inputA').value;
+  let valB = document.getElementById('inputB').value;
+
+  console.log(fname, valA, valB);
+
+  let txt = fname + valA + valB;
+  console.log(txt);
+
+  let sum = Number(valA) + Number(valB);
+  console.log(sum);
+  console.log(`A: ${valA} + B: ${valB} = ${sum}`);
+  let ans = `A: ${valA} + B: ${valB} = ${sum}`;
+  console.log(ans);
+
+  if (Number(valA) <= 0) {
+    alert("More than Zero");
+    document.getElementById('inputA').style.backgroundColor = 'red';
+  }
+
+
+  //saveBtn.submit();
+
+  /*let data = {
+    "fname": fname,
+    "A": Number(valA),
+    "B": valB,
+    "ans": ans,
+  }
+
+  fetch('/test', {
+      mehtod: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });*/
+});
+
+let idx = 0;
+document.getElementById('addBtn').addEventListener('click', function(event) {
+  event.preventDefault();
+
+  /*let x = document.createElement('INPUT');
+  x.setAttribute("type", "text");
+  x.name = `input${idx}`;
+  x.id = `input${idx}`;
+  document.getElementById('addEl').appendChild(x);
+  idx++;*/
+
+  const data = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  let sel = document.createElement('SELECT');
+  sel.id = `test${idx}`;
+  sel.name = `test${idx}`;
+  sel.className = "myDropdown";
+
+  let dayNumber = 1;
+  data.forEach(function(days) {
+    // console.log(days);
+    let opt = document.createElement('option');
+    opt.text = days;
+    opt.value = dayNumber;
+    sel.add(opt, null);
+    dayNumber++;
+  });
+  idx++;
+
+  document.getElementById('addEl').appendChild(sel);
+});
+
+document.getElementById('delBtn').addEventListener('click', function(event) {
+	event.preventDefault();
+  console.log(idx);
+  
+  const list = document.getElementById('addEl');
+  list.removeChild(list.lastElementChild);
+  idx--;
+  
+})
+
+document.getElementById('saveBtn').addEventListener('click', function(event) {
+  event.preventDefault();
+  let arr1 = [];
+  let arrtxt = [];
+  let res = document.querySelectorAll('.myDropdown');
+  // console.log(res);
+  res.forEach(function(el) {
+    let txt = el.options[el.selectedIndex].text;
+    let val = el.options[el.selectedIndex].value;
+    // console.log(val);
+    arr1.push(val);
+    arrtxt.push(txt);
+  });
+  console.log(arr1);
+  console.log(arrtxt)
+})
+
+const data = {
+  "monday": "1",
+  "friday": "5"
+}
+
+
+/*const f = [{
+    "fname": "Golf",
+    "A": 1,
+    "B": "4"
+  },
+  {
+    "fname": "Top",
+    "A": 1,
+    "B": "4"
+  },
+];
+
+console.log(f[0].fname);
+
+f.forEach(function(x) {
+  console.log(x);
+  console.log(x.fname);
+})*/
+
+
+
+fetch('http://example.com/movies.json')
+  .then(function(response) {
+  	response.json();
+  })
+  .then(function(data) {
+  	console.log(data);
+    // do something
+  });
+
+</script>
