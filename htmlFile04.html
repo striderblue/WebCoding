@@ -1,0 +1,68 @@
+<label>
+  <span>Enter maximum value for dropdown:</span>
+  <input id="max" value="5" />
+</label>
+<br />
+<button id="button">Add Dropdown in New Row</button>
+<div id="container">
+  <form>
+    <button id="saveBtn">SAVE</button>
+    <table id="table"></table>
+  </form>
+</div>
+<script>
+// Identifies existing HTML elements
+const maxInput = document.getElementById("max");
+const button = document.getElementById("button");
+const table = document.getElementById("table");
+
+// Calls `addDropdown` when `button` is clicked
+button.addEventListener("click", addDropdown);
+
+
+// Defines the event listener
+function addDropdown(event) { //(`event` object is available if we want it)
+
+  // Gets value from input
+  let max = parseInt(maxInput.value);
+
+  // Exits function early if maxInput doesn't have a number
+  if (!max) {
+    return;
+  }
+
+  // Defines the new elements
+  const row = document.createElement("tr");
+  const cell = document.createElement("td");
+  const dropdown = document.createElement("select");
+  dropdown.className = "myDropdown";
+
+  // Enumerates options and adds them to the select element
+  let optNumber = -1;
+  while (++optNumber <= max) {
+    let optionElement = document.createElement("option");
+    optionElement.value = "opt" + optNumber;
+    optionElement.innerHTML = "Option " + optNumber;
+    dropdown.appendChild(optionElement);
+  }
+
+  // Adds the elements to the page
+  cell.appendChild(dropdown);
+  row.appendChild(cell);
+  table.appendChild(row);
+}
+
+document.getElementById('saveBtn').addEventListener('click', function(event) {
+  event.preventDefault();
+  let arr1 = [];
+  let res = document.querySelectorAll('.myDropdown');
+  console.log(res);
+  res.forEach(function(el) {
+    let val = el.options[el.selectedIndex].value;
+    console.log(val);
+    arr1.push(val)
+  });
+  console.log(arr1);
+})
+
+</script>
